@@ -2,14 +2,19 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [HideInInspector]
-    public Item item; 
+    public Item item;
+    
+    [HideInInspector] 
+    public int count = 1; 
     
     [Header("UI")]
     public Image image;
+    public TMPro.TextMeshProUGUI countText;
 
     [HideInInspector]
     public Transform parentAfterDrag;
@@ -19,6 +24,14 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         item = newItem;
         image.sprite = newItem.image;
+        RefreshCount();
+    }
+
+    public void RefreshCount()
+    {
+        countText.text = count.ToString();
+        bool textActive = count > 1;
+        countText.gameObject.SetActive(textActive);
     }
     void Start() {
         canvasGroup = GetComponent<CanvasGroup>();
